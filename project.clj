@@ -1,4 +1,4 @@
-(defproject clovaluator "0.0.1"
+(defproject isomnath/clovaluator "0.0.1"
   :description "Clovaluator - Core Library"
   :url "https://github.com/isomnath/clovaluator"
   :uberjar-name "clovaluator.jar"

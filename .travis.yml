@@ -1,0 +1,3 @@
+install: lein protobuf install
+language: clojure
+script: make tests-with-coverage
