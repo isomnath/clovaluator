@@ -6,3 +6,8 @@ All notable changes to this project will be documented in this file. This change
 - Initial commit - core com.navi.engine and basic project structure
 - Add logging support for rule evaluations
 - Add tests for all cases
+
+## [1.0.0]
+### Changed
+- Added new comparators - threshold and field
+- Added null pointer exception handling and log support to trace errors
