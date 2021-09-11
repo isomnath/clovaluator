@@ -1,2 +1,4 @@
 language: clojure
 script: make tests-with-coverage
+after_script:
+  - bash -ex coveralls.sh
