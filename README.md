@@ -1,5 +1,8 @@
 # Clovaluator
 
+[![Build Status](https://app.travis-ci.com/isomnath/clovaluator.svg?branch=master)](https://app.travis-ci.com/github/isomnath/clovaluator)
+[![Coverage Status](https://coveralls.io/repos/github/isomnath/clovaluator/badge.svg?branch=master)](https://coveralls.io/github/taniarascia/chip8?branch=master)
+
 I am a Clojure Library dimension agnostic criteria comparator.
 I expose the following threshold comparison operators:
 ```
