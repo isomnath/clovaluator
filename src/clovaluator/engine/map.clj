@@ -3,7 +3,7 @@
             [clovaluator.comparators.threshold.executor :as te]))
 
 (def ^:private executor-type-map
-  {"field-comparator"   fce/execute
+  {"field-comparator"     fce/execute
    "threshold-comparator" te/execute})
 
 (defn get-executor

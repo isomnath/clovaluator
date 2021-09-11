@@ -12,13 +12,19 @@
     (testing "should return false when operator does not exist"
       (let [criterion {:id         "A"
                        :field-name "root.parent-level-2.key-2"
-                       :operator   "subset-of"
+                       :operator   "invalid-comparator"
                        :value      ["t1" "t2" "t3" "t4"]}]
         (is (false? (execute message criterion)))))
 
     (testing "should return false when exception occurs in evaluating criteria"
       (let [criterion {:id         "A"
-                       :field-name "root.parent-level-2.key-2"
+                       :field-name "root.parent-level-2.key-1"
+                       :operator   "between"
+                       :value      [101.0 110.90]}]
+        (is (false? (execute message criterion)))))
+
+    (testing "should return false when null pointer exception occurs in evaluating criteria as field name is missing"
+      (let [criterion {:id         "A"
                        :operator   "between"
                        :value      [101.0 110.90]}]
         (is (false? (execute message criterion)))))

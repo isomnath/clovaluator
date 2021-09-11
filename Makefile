@@ -1,25 +1,19 @@
-all: clean tests-with-coverage build
+all: clean tests-with-coverage compile
 
-TEST_ENVIRONMENT_NAME="test"
-TEST_LOG_LEVEL="debug"
 EXCLUDED_NAMESPACES=clovaluator.logger.log
 
 clean:
 	@echo "cleaning repository caches"
 	@lein clean
 
-tests:
+tests: clean
 	@echo "running tests"
-	@export ENVIRONMENT=$(TEST_ENVIRONMENT_NAME) && lein test
+	@lein test
 
-tests-with-coverage: set-test-log-level
+tests-with-coverage: clean
 	@echo "running tests with coverage"
-	@export ENVIRONMENT=$(TEST_ENVIRONMENT_NAME) && lein cloverage -e $(EXCLUDED_NAMESPACES)
+	@lein cloverage -e $(EXCLUDED_NAMESPACES)
 
-build:
+compile: clean
 	@echo "building artifact"
 	@lein uberjar
-
-set-test-log-level:
-	@echo "set log level for testing"
-	@export LOG_LEVEL=$(TEST_LOG_LEVEL)

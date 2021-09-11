@@ -13,7 +13,7 @@
     (testing "should return null when key is not present in map"
       (is (nil? (get-message-field-value map "root.parent-level-1.key-4"))))
 
-    (testing "should return null when key is not present in map"
+    (testing "should return data when key is present in map"
       (is (= "pl1-k1" (get-message-field-value map "root.parent-level-1.key-1")))
       (is (= "pl1-k2" (get-message-field-value map "root.parent-level-1.key-2")))
       (is (= "pl1-k3" (get-message-field-value map "root.parent-level-1.key-3")))

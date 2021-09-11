@@ -3,10 +3,12 @@
             [clovaluator.comparators.commons :as commons]
             [clovaluator.comparators.field.operator-map :refer [operators-map]]))
 
+(def ^:private current-namespace *ns*)
+
 (defn- return-false-rule
   [message-field-one-value message-field-two-value]
-  (log/debug *ns* "return-false-rule" "returning false" {:message-field-one-value message-field-one-value
-                                                         :message-field-two-value message-field-two-value})
+  (log/error current-namespace "return-false-rule" "returning false" {:message-field-one-value message-field-one-value
+                                                                      :message-field-two-value message-field-two-value})
   false)
 
 (defn- operator-function-lookup
@@ -14,7 +16,7 @@
   (if-let [operator-fn (get operators-map operator)]
     operator-fn
     (do
-      (log/error *ns* "operator-function-lookup" "operator not found" {:operator operator})
+      (log/error current-namespace "operator-function-lookup" "operator not found" {:operator operator})
       return-false-rule)))
 
 (defn- execute-criterion-internal
@@ -28,8 +30,13 @@
   [message operator-name field-one-name field-two-name]
   (try
     (execute-criterion-internal message operator-name field-one-name field-two-name)
+    (catch NullPointerException e
+      (log/exception current-namespace "exception-wrapper" "null pointer exception while executing rule"
+                     {:field-one-name field-one-name :field-two-name field-two-name :operator operator-name} e)
+      false)
     (catch Exception e
-      (log/exception *ns* "exception-wrapper" "error while executing rule" e)
+      (log/exception current-namespace "exception-wrapper" "error while executing rule"
+                     {:field-one-name field-one-name :field-two-name field-two-name :operator operator-name} e)
       false)))
 
 (defn execute
@@ -40,8 +47,9 @@
         true-return-value (commons/return-values-processor (:expectation-true criterion) true)
         false-return-value (commons/return-values-processor (:expectation-false criterion) false)
         rule (str field-one-name " | " operator-name " | " field-two-name)]
-    (log/debug *ns* "exception-wrapper" "executing rule" {:message message :criteria criterion})
-    (log/debug *ns* "exception-wrapper" "executing rule" {:field-one-name field-one-name :field-two-name field-two-name :rule rule})
+    (log/info *ns* "execute" "executing rule"
+              {:message        message :criteria criterion
+               :field-one-name field-one-name :field-two-name field-two-name :rule rule})
     (if (exception-wrapper message operator-name field-one-name field-two-name)
       true-return-value
       false-return-value)))

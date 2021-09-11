@@ -14,8 +14,16 @@
     (testing "should return false when operator does not exist"
       (let [criterion {:id             "A"
                        :field-one-name "root.parent-level-2.key-2"
-                       :operator       "subset-of"
+                       :operator       "invalid-comparator"
                        :field-two-name "root.parent-level-2.key-1"}]
+        (is (false? (execute message criterion)))))
+
+    (testing "should return false when null pointer exception occurs in evaluating criteria as field is not present"
+      (let [criterion {:field-one-name    nil
+                       :operator          "equals"
+                       :field-two-name    "root.parent-level-6.key-2"
+                       :expectation-true  true
+                       :expectation-false false}]
         (is (false? (execute message criterion)))))
 
     (testing "should return false when exception occurs in evaluating criteria"

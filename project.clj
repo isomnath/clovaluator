@@ -1,16 +1,21 @@
-(defproject isomnath/clovaluator "0.0.1"
-  :description "Clovaluator - Core Library"
+(require 'cemerick.pomegranate.aether)
+(cemerick.pomegranate.aether/register-wagon-factory!
+  "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))
+
+(defproject isomnath/clovaluator "1.0.0"
+  :description "Clovaluator - Domain Agnostic Rule Engine"
   :url "https://github.com/isomnath/clovaluator"
   :uberjar-name "clovaluator.jar"
-  :java-source-paths ["src"]
+  :java-source-paths ["src/com"]
   :dependencies [[selmer "1.12.40"]
-                 [cheshire "5.10.0"]
                  [org.clojure/clojure "1.10.1"]
+                 [org.clojure/data.json "2.3.1"]
                  [org.clojure/tools.logging "1.1.0"]
-                 [org.apache.logging.log4j/log4j "2.14.1" :extension "pom"]]
+                 [commons-codec/commons-codec "1.15"]]
   :target-path "target/%s"
   :profiles {:uberjar {:aot      :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"
-                                  "-XX:-OmitStackTraceInFastThrow"]}}
-  :plugins [[lein-cljfmt "0.7.0"]
-            [lein-cloverage "1.2.2"]])
+                                  "-XX:-OmitStackTraceInFastThrow"]}
+             :test    {:java-source-paths ["src/com"]
+                       :jvm-opts          ["-Dlog4j.configurationFile=resources/log4j2.test.xml"]}}
+  :plugins [[lein-cloverage "1.2.2"]])
